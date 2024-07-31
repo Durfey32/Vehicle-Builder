@@ -10,12 +10,12 @@ class Cli {
   // TODO: update the vehicles property to accept Truck and Motorbike objects as well
   // TODO: You will need to use the Union operator to define additional types for the array
   // TODO: See the AbleToTow interface for an example of how to use the Union operator
-  vehicles: (Car)[];
+  vehicles: (Car: string, Truck: string, Motorbike: string) => [];
   selectedVehicleVin: string | undefined;
   exit: boolean = false;
 
   // TODO: Update the constructor to accept Truck and Motorbike objects as well
-  constructor(vehicles: (Car)[]) {
+  constructor(vehicles: (Car: string, Truck: string, Motorbike: string) => []) {
     this.vehicles = vehicles;
   }
 
@@ -36,15 +36,15 @@ class Cli {
           type: 'list',
           name: 'selectedVehicleVin',
           message: 'Select a vehicle to perform an action on',
-          choices: this.vehicles.map((vehicle) => {
+          choices: this.vehicles.map((vehicle: { vin: any; make: any; model: any; }) => {
             return {
               name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
               value: vehicle.vin,
             };
-          }),
+          }) as inquirer.QuestionCollection<{ selectedVehicleVin: string }>,,
         },
       ])
-      .then((answers) => {
+      .then((answers: { selectedVehicleVin: string }) => {
         // set the selectedVehicleVin to the vin of the selected vehicle
         this.selectedVehicleVin = answers.selectedVehicleVin;
         // perform actions on the selected vehicle
@@ -64,7 +64,7 @@ class Cli {
           choices: ['Car'],
         },
       ])
-      .then((answers) => {
+      .then((answers: { vehicleType: string; }) => {
         if (answers.vehicleType === 'Car') {
           // create a car
           this.createCar();
@@ -74,7 +74,7 @@ class Cli {
   }
 
   // method to create a car
-  createCar(): void {
+  createCar(); void {
     inquirer
       .prompt([
         {
@@ -108,7 +108,7 @@ class Cli {
           message: 'Enter Top Speed',
         },
       ])
-      .then((answers) => {
+      .then((answers: { color: string; make: string; model: string; year: string; weight: string; topSpeed: string; }) => {
         const car = new Car(
           // TODO: The generateVin method is static and should be called using the class name Cli, make sure to use Cli.generateVin() for creating a truck and motorbike as well!
           Cli.generateVin(),
@@ -130,7 +130,7 @@ class Cli {
   }
 
   // method to create a truck
-  createTruck(): void {
+  createTruck(); void {
     inquirer
       .prompt([
         {
@@ -169,7 +169,7 @@ class Cli {
           message: 'Enter Towing Capacity',
         },
       ])
-      .then((answers) => {
+      .then((answers: any) => {
         // TODO: Use the answers object to pass the required properties to the Truck constructor
         // TODO: push the truck to the vehicles array
         // TODO: set the selectedVehicleVin to the vin of the truck
@@ -232,7 +232,7 @@ class Cli {
           message: 'Enter Rear Wheel Brand',
         },
       ])
-      .then((answers) => {
+      .then((answers: any) => {
         // TODO: Use the answers object to pass the required properties to the Motorbike constructor
         // TODO: push the motorbike to the vehicles array
         // TODO: set the selectedVehicleVin to the vin of the motorbike
@@ -249,7 +249,7 @@ class Cli {
           type: 'list',
           name: 'vehicleToTow',
           message: 'Select a vehicle to tow',
-          choices: this.vehicles.map((vehicle) => {
+          choices: this.vehicles.map((vehicle: { vin: any; make: any; model: any; }) => {
             return {
               name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
               value: vehicle,
@@ -257,7 +257,7 @@ class Cli {
           }),
         },
       ])
-      .then((answers) => {
+      .then((answers: any) => {
         // TODO: check if the selected vehicle is the truck
         // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
         // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
@@ -287,7 +287,7 @@ class Cli {
           ],
         },
       ])
-      .then((answers) => {
+      .then((answers: { action: string; }) => {
         // perform the selected action
         if (answers.action === 'Print details') {
           // find the selected vehicle and print its details
@@ -375,7 +375,7 @@ class Cli {
           choices: ['Create a new vehicle', 'Select an existing vehicle'],
         },
       ])
-      .then((answers) => {
+      .then((answers: { CreateOrSelect: string; }) => {
         // check if the user wants to create a new vehicle or select an existing vehicle
         if (answers.CreateOrSelect === 'Create a new vehicle') {
           this.createVehicle();
@@ -388,3 +388,31 @@ class Cli {
 
 // export the Cli class
 export default Cli;
+function createCar() {
+  throw new Error("Function not implemented.");
+}
+
+function createTruck() {
+  throw new Error("Function not implemented.");
+}
+
+function createVehicle() {
+  throw new Error("Function not implemented.");
+}
+
+function createMotorbike() {
+  throw new Error("Function not implemented.");
+}
+
+function findVehicleToTow() {
+  throw new Error("Function not implemented.");
+}
+
+function performActions() {
+  throw new Error("Function not implemented.");
+}
+
+function startCli() {
+  throw new Error("Function not implemented.");
+}
+
