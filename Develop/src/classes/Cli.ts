@@ -7,15 +7,18 @@ import Wheel from "./Wheel.js";
 
 // define the Cli class
 class Cli {
+  startCli() {
+    throw new Error("Method not implemented.");
+  }
   // TODO: update the vehicles property to accept Truck and Motorbike objects as well
   // TODO: You will need to use the Union operator to define additional types for the array
   // TODO: See the AbleToTow interface for an example of how to use the Union operator
-  vehicles: (Car: string, Truck: string, Motorbike: string) => [];
+  vehicles: (Car | Truck | Motorbike)[];
   selectedVehicleVin: string | undefined;
   exit: boolean = false;
 
   // TODO: Update the constructor to accept Truck and Motorbike objects as well
-  constructor(vehicles: (Car: string, Truck: string, Motorbike: string) => []) {
+  constructor(vehicles: (Car | Truck | Motorbike)[]) {
     this.vehicles = vehicles;
   }
 
@@ -29,24 +32,34 @@ class Cli {
   }
 
   // method to choose a vehicle from existing vehicles
-  chooseVehicle(): void {
+  chooseVehicle(): any {
     inquirer
       .prompt([
         {
           type: 'list',
           name: 'selectedVehicleVin',
           message: 'Select a vehicle to perform an action on',
-          choices: this.vehicles.map((vehicle: { vin: any; make: any; model: any; }) => {
-            return {
+          choices: this.vehicles.map(vehicle: { vin: any; make: any; model: any; }) => ({
               name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
               value: vehicle.vin,
-            };
+            }(;
           }) as inquirer.QuestionCollection<{ selectedVehicleVin: string }>,,
         },
       ])
-      .then((answers: { selectedVehicleVin: string }) => {
+      .then((answers: { color: string; make: string; model: string; year: string; weight: string; topSpeed: string; }) => {
+        const car = new Car(
+          Cli.generateVin(),
+          answers.color,
+          answers.make,
+          answers.model,
+          parseInt(answers.year),
+          parseInt(answers.weight),
+          parseInt(answers.topSpeed),
+          []
+        );
+        this.vehicles.push(car);
         // set the selectedVehicleVin to the vin of the selected vehicle
-        this.selectedVehicleVin = answers.selectedVehicleVin;
+        this.selectedVehicleVin = car.vin;
         // perform actions on the selected vehicle
         this.performActions();
       });
@@ -170,11 +183,24 @@ class Cli {
         },
       ])
       .then((answers: any) => {
+        const truck = new Truck(
+          Cli.generateVin(),
+          answers.color,
+          answers.make,
+          answers.model,
+          parseInt(answers.year),
+          parseInt(answers.weight),
+          parseInt(answers.topSpeed),
+          parseInt(answers.towingCapacity),
+        );
+        this.vehicle.push(truck);
+        this.selectedVehicleVin = truck.vin;
+        this.performActions();
         // TODO: Use the answers object to pass the required properties to the Truck constructor
         // TODO: push the truck to the vehicles array
         // TODO: set the selectedVehicleVin to the vin of the truck
         // TODO: perform actions on the truck
-      });
+      }),
   }
 
   // method to create a motorbike
@@ -233,6 +259,20 @@ class Cli {
         },
       ])
       .then((answers: any) => {
+        const motorbike = new Motorbike(
+          Cli.generateVin(),
+          answers.color,
+          answers.make,
+          answers.model,
+          parseInt(answers.year),
+          parseInt(answers.weight),
+          parseInt(answers.topSpeed),
+          new Wheel(answers.frontWheelDiameter, answers.frontWheelBrand),
+          new Wheel(answers.rearWheelDiameter, answers.rearWheelBrand)
+        );
+        this.vehicles.push(motorbike);
+        this.selectedVehicleVin = motorbike.vin;
+        this.performActions();
         // TODO: Use the answers object to pass the required properties to the Motorbike constructor
         // TODO: push the motorbike to the vehicles array
         // TODO: set the selectedVehicleVin to the vin of the motorbike
@@ -249,15 +289,23 @@ class Cli {
           type: 'list',
           name: 'vehicleToTow',
           message: 'Select a vehicle to tow',
-          choices: this.vehicles.map((vehicle: { vin: any; make: any; model: any; }) => {
-            return {
-              name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
-              value: vehicle,
-            };
-          }),
-        },
-      ])
+          choices: this.vehicles
+          .filter((vehicle: any) => vehicle !== Truck)
+          .map((vehicle: { vin: any; make: any; model: any; }) => ({
+            name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
+            value: vehicle,
+          })),
+      },
+    ])
       .then((answers: any) => {
+        const vehicleToTow = answers.vehicleToTow;
+        if (vehicleToTow instanceof Truck) {
+          console.log("A truck cannot tow another truck.");
+          this.performActions();
+        } else {
+          truck.tow(vehicleToTow);
+          this.performActions();
+        }
         // TODO: check if the selected vehicle is the truck
         // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
         // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
@@ -282,6 +330,8 @@ class Cli {
             'Turn right',
             'Turn left',
             'Reverse',
+            'Tow vehicle',
+            'Perform wheelie',
             'Select or create another vehicle',
             'Exit',
           ],
