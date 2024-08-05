@@ -38,7 +38,11 @@ Licenses: ![Static Badge](https://img.shields.io/badge/None-blue)
 
 
 ## Tests
-Video
+[Video Link Here](https://app.screencastify.com/v3/watch/zKciawksHp0a0MCoPA3V) 
+<br>
+<br>
+
+![alt text](Code_yoO2ayJcgL.gif)
 
 
 ## Questions?
