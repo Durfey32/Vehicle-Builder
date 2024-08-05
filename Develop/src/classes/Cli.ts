@@ -34,18 +34,17 @@ class Cli {
   // method to choose a vehicle from existing vehicles
   chooseVehicle(): any {
     inquirer
-      .prompt([
+      .prompt(
         {
           type: 'list',
           name: 'selectedVehicleVin',
           message: 'Select a vehicle to perform an action on',
-          choices: this.vehicles.map(vehicle: { vin: any; make: any; model: any; }) => ({
+          choices: this.vehicles.map((this.vehicles:) { vin: string, make: string, model: string }) => ({
               name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
               value: vehicle.vin,
-            }(;
-          }) as inquirer.QuestionCollection<{ selectedVehicleVin: string }>,,
+            }) as inquirer.QuestionCollection<{ selectedVehicleVin: string }>,
         },
-      ])
+      )
       .then((answers: { color: string; make: string; model: string; year: string; weight: string; topSpeed: string; }) => {
         const car = new Car(
           Cli.generateVin(),
@@ -62,8 +61,8 @@ class Cli {
         this.selectedVehicleVin = car.vin;
         // perform actions on the selected vehicle
         this.performActions();
-      });
-  }
+      };
+  )}
 
   // method to create a vehicle
   createVehicle(): void {
@@ -91,34 +90,17 @@ class Cli {
     inquirer
       .prompt([
         {
-          type: 'input',
-          name: 'color',
-          message: 'Enter Color',
-        },
-        {
-          type: 'input',
-          name: 'make',
-          message: 'Enter Make',
-        },
-        {
-          type: 'input',
-          name: 'model',
-          message: 'Enter Model',
-        },
-        {
-          type: 'input',
-          name: 'year',
-          message: 'Enter Year',
-        },
-        {
-          type: 'input',
-          name: 'weight',
-          message: 'Enter Weight',
-        },
-        {
-          type: 'input',
-          name: 'topSpeed',
-          message: 'Enter Top Speed',
+          type: 'input', name: 'color', message: 'Enter Color',
+        },{
+          type: 'input', name: 'make', message: 'Enter Make',
+        },{
+          type: 'input', name: 'model', message: 'Enter Model',
+        },{
+          type: 'input', name: 'year', message: 'Enter Year',
+        },{
+          type: 'input', name: 'weight', message: 'Enter Weight',
+        },{
+          type: 'input', name: 'topSpeed', message: 'Enter Top Speed',
         },
       ])
       .then((answers: { color: string; make: string; model: string; year: string; weight: string; topSpeed: string; }) => {
@@ -147,39 +129,19 @@ class Cli {
     inquirer
       .prompt([
         {
-          type: 'input',
-          name: 'color',
-          message: 'Enter Color',
-        },
-        {
-          type: 'input',
-          name: 'make',
-          message: 'Enter Make',
-        },
-        {
-          type: 'input',
-          name: 'model',
-          message: 'Enter Model',
-        },
-        {
-          type: 'input',
-          name: 'year',
-          message: 'Enter Year',
-        },
-        {
-          type: 'input',
-          name: 'weight',
-          message: 'Enter Weight',
-        },
-        {
-          type: 'input',
-          name: 'topSpeed',
-          message: 'Enter Top Speed',
-        },
-        {
-          type: 'input',
-          name: 'towingCapacity',
-          message: 'Enter Towing Capacity',
+          type: 'input', name: 'color', message: 'Enter Color',
+        },{
+          type: 'input', name: 'make', message: 'Enter Make',
+        },{
+          type: 'input', name: 'model', message: 'Enter Model',
+        },{
+          type: 'input', name: 'year', message: 'Enter Year',
+        },{
+          type: 'input', name: 'weight', message: 'Enter Weight',
+        },{
+          type: 'input', name: 'topSpeed', message: 'Enter Top Speed',
+        },{
+          type: 'input', name: 'towingCapacity', message: 'Enter Towing Capacity',
         },
       ])
       .then((answers: any) => {
@@ -191,6 +153,7 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
+          parseInt(answers.wheels)
           parseInt(answers.towingCapacity),
         );
         this.vehicle.push(truck);
@@ -208,54 +171,25 @@ class Cli {
     inquirer
       .prompt([
         {
-          type: 'input',
-          name: 'color',
-          message: 'Enter Color',
-        },
-        {
-          type: 'input',
-          name: 'make',
-          message: 'Enter Make',
-        },
-        {
-          type: 'input',
-          name: 'model',
-          message: 'Enter Model',
-        },
-        {
-          type: 'input',
-          name: 'year',
-          message: 'Enter Year',
-        },
-        {
-          type: 'input',
-          name: 'weight',
-          message: 'Enter Weight',
-        },
-        {
-          type: 'input',
-          name: 'topSpeed',
-          message: 'Enter Top Speed',
-        },
-        {
-          type: 'input',
-          name: 'frontWheelDiameter',
-          message: 'Enter Front Wheel Diameter',
-        },
-        {
-          type: 'input',
-          name: 'frontWheelBrand',
-          message: 'Enter Front Wheel Brand',
-        },
-        {
-          type: 'input',
-          name: 'rearWheelDiameter',
-          message: 'Enter Rear Wheel Diameter',
-        },
-        {
-          type: 'input',
-          name: 'rearWheelBrand',
-          message: 'Enter Rear Wheel Brand',
+          type: 'input', name: 'color', message: 'Enter Color',
+        },{
+          type: 'input', name: 'make', message: 'Enter Make',
+        },{
+          type: 'input', name: 'model', message: 'Enter Model',
+        },{
+          type: 'input', name: 'year', message: 'Enter Year',
+        },{
+          type: 'input', name: 'weight', message: 'Enter Weight',
+        },{
+          type: 'input', name: 'topSpeed', message: 'Enter Top Speed',
+        },{
+          type: 'input', name: 'frontWheelDiameter', message: 'Enter Front Wheel Diameter',
+        },{
+          type: 'input', name: 'frontWheelBrand', message: 'Enter Front Wheel Brand',
+        },{
+          type: 'input', name: 'rearWheelDiameter', message: 'Enter Rear Wheel Diameter',
+        },{
+          type: 'input', name: 'rearWheelBrand', message: 'Enter Rear Wheel Brand',
         },
       ])
       .then((answers: any) => {
@@ -314,6 +248,7 @@ class Cli {
 
   // method to perform actions on a vehicle
   performActions(): void {
+    
     inquirer
       .prompt([
         {
@@ -339,7 +274,7 @@ class Cli {
       ])
       .then((answers: { action: string; }) => {
         // perform the selected action
-        if (answers.action === 'Print details') {
+        if (answers.action === 'Print details')  {
           // find the selected vehicle and print its details
           for (let i = 0; i < this.vehicles.length; i++) {
             if (this.vehicles[i].vin === this.selectedVehicleVin) {
@@ -432,9 +367,10 @@ class Cli {
         } else {
           this.chooseVehicle();
         }
-      });
+      }),
   }
 }
+
 
 // export the Cli class
 export default Cli;

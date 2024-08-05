@@ -33,7 +33,8 @@ const car1 = new Car(
 );
 
 // TODO: uncomment once motorbikes are implemented
-const motorbike1Wheels = [new Wheel(17, "Michelin"), new Wheel(17, "Michelin")];
+const motorbikeFrontWheels = [new Wheel(17, "Michelin")];
+const motorbikeRearWheels = [new Wheel(17, "Michelin")];
 
 const motorbike1 = new Motorbike(
   Cli.generateVin(), 
@@ -43,7 +44,8 @@ const motorbike1 = new Motorbike(
   2021, 
   500, 
   125, 
-  motorbike1Wheels);
+  motorbikeFrontWheels,
+  motorbikeRearWheels)
 
 // push vehicles to array
 // TODO: uncomment once trucks are implemented
